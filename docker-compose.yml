@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_django_app
+    command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    environment:
+      MONGO_URL: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@db:27017/"
+    networks:
+      - my-network
+  
+  db:
+    image: mongo
+    container_name: my_mongodb
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

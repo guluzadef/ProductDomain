@@ -1,0 +1,10 @@
+asgiref
+Django
+django-js-asset
+django-mptt
+djangorestframework
+dnspython
+pymongo
+python-dotenv
+sqlparse
+typing_extensions
